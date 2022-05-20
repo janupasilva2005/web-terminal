@@ -29,7 +29,8 @@ const colorSchemes = {
   },
 };
 
-const selectedColor = colorSchemes.solarizedDark;
+const selectedColor = colorSchemes.blackOnLightYellow;
+const currentVersion = 1.0;
 
 const headerString = "janupasilva@gmail.com";
 
@@ -45,14 +46,12 @@ const historyContainer = document.getElementById("history");
 const headerElement = document.getElementById("header");
 
 // Array to store all the commands user entered
-let history = [];
+let historyArray = [];
 
 /**
  * Create the output
  */
 const createHistory = (command) => {
-  history.push(command); // Adding to history
-
   const historyItem = document.createElement("div"); // Creating history item
   historyItem.innerHTML = `<p style='color: ${selectedColor.text}'>${command}</p>`;
 
@@ -75,9 +74,15 @@ const showHeader = (command) => {
   historyContainer.append(header);
 };
 
+const addToHistory = (command) => {
+  historyArray.push(command);
+};
+
 // Input event function
 input.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
+    addToHistory(e.target.value);
+
     switch (e.target.value) {
       case "help":
         showHeader("help");
@@ -99,7 +104,17 @@ input.addEventListener("keypress", (e) => {
       case "version":
         showHeader("version");
 
-        createHistory("show the version");
+        createHistory(`Version ${currentVersion.toFixed(1)}`);
+        setInputEmpty(e);
+
+        return;
+      case "history":
+        showHeader("history");
+
+        historyArray.forEach((historyItem, index) => {
+          createHistory(index + 1 + ": " + historyItem);
+        });
+
         setInputEmpty(e);
 
         return;

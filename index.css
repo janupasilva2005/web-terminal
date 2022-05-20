@@ -4,12 +4,14 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Ubuntu", sans-serif;
+  font-family: "JetBrains Mono", monospace;
 }
 #input {
   background: transparent;
   border: none;
   outline: none;
+  font-family: "JetBrains Mono", monospace;
+  padding: 10px;
 }
 #container {
   padding: 10px;
@@ -19,4 +21,8 @@ body {
 }
 #input {
   font-size: 18px;
+}
+::selection {
+  color: white;
+  background: black;
 }
