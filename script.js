@@ -54,12 +54,7 @@ const createHistory = (command) => {
   history.push(command); // Adding to history
 
   const historyItem = document.createElement("div"); // Creating history item
-
-  // const header = document.createElement("p");
-  // header.style.color = "#00CD00";
-  // header.innerHTML = headerString;
-
-  historyItem.innerHTML = `<p>${command}</p>`;
+  historyItem.innerHTML = `<p style='color: ${selectedColor.text}'>${command}</p>`;
 
   historyContainer.append(historyItem); // Adding the item to top history
 };
@@ -125,4 +120,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   headerElement.style.color = "#00CD00";
   headerElement.innerHTML = headerString + " :~$";
+
+  input.style.color = selectedColor.text;
+  input.focus();
 });
