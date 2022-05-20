@@ -29,7 +29,7 @@ const colorSchemes = {
   },
 };
 
-const selectedColor = colorSchemes.blackOnLightYellow;
+let selectedColor = colorSchemes.solarizedDark;
 const currentVersion = 1.0;
 
 const headerString = "janupasilva@gmail.com";
@@ -37,7 +37,8 @@ const headerString = "janupasilva@gmail.com";
 const helpCommands = [
   "history - Shows the previous commands entered",
   "info - Shows the info the creator",
-  "color - Change the color schems",
+  "show--colors - Shows all the available color schemes",
+  "{number} - Change the color schems",
   "version - Show the version",
 ];
 
@@ -78,54 +79,104 @@ const addToHistory = (command) => {
   historyArray.push(command);
 };
 
+const checkTheColorExists = (id) => {
+  const colors = Object.keys(colorSchemes);
+
+  return id >= 0 && id < colors.length;
+};
+
+const getTheColor = (id) => {
+  const colors = Object.keys(colorSchemes);
+
+  return colors[id];
+};
+
 // Input event function
 input.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
     addToHistory(e.target.value);
 
-    switch (e.target.value) {
-      case "help":
-        showHeader("help");
+    if (e.target.value === "help") {
+      showHeader("help");
 
-        helpCommands.forEach((cmd) => {
-          createHistory(cmd);
-        });
-        setInputEmpty(e);
+      helpCommands.forEach((cmd) => {
+        createHistory("* " + cmd);
+      });
+      setInputEmpty(e);
 
-        return;
-      case "info":
-        showHeader("info");
-
-        createHistory("show info");
-        setInputEmpty(e);
-
-        return;
-
-      case "version":
-        showHeader("version");
-
-        createHistory(`Version ${currentVersion.toFixed(1)}`);
-        setInputEmpty(e);
-
-        return;
-      case "history":
-        showHeader("history");
-
-        historyArray.forEach((historyItem, index) => {
-          createHistory(index + 1 + ": " + historyItem);
-        });
-
-        setInputEmpty(e);
-
-        return;
-      default:
-        showHeader(e.target.value);
-
-        createHistory("Command Not found");
-        setInputEmpty(e);
-
-        return;
+      return;
     }
+
+    if (e.target.value === "info") {
+      showHeader("info");
+
+      createHistory("* I am a 16 year old software developer.");
+      createHistory("* I live in Sri, lanka");
+
+      setInputEmpty(e);
+
+      return;
+    }
+
+    if (e.target.value === "version") {
+      showHeader("version");
+
+      createHistory(`Version ${currentVersion.toFixed(1)}`);
+      setInputEmpty(e);
+
+      return;
+    }
+
+    if (e.target.value === "history") {
+      showHeader("history");
+
+      historyArray.forEach((historyItem, index) => {
+        createHistory(index + 1 + ": " + historyItem);
+      });
+
+      setInputEmpty(e);
+
+      return;
+    }
+
+    if (e.target.value === "show--colors") {
+      showHeader("show--colors");
+
+      createHistory("Enter the number of the color you want.");
+
+      const availableSchemes = Object.keys(colorSchemes);
+
+      availableSchemes.forEach((color, index) => {
+        createHistory(`${index}: ${color}`);
+      });
+
+      setInputEmpty(e);
+
+      return;
+    }
+
+    if (checkTheColorExists(parseInt(e.target.value))) {
+      showHeader(e.target.value);
+
+      selectedColor = colorSchemes[getTheColor(e.target.value)];
+      document.body.style.backgroundColor = selectedColor.background;
+      input.style.color = selectedColor.text;
+
+      createHistory(e.target.value);
+      setInputEmpty(e);
+
+      return;
+    }
+
+    /**
+     * If the command is not found
+     */
+    showHeader(e.target.value);
+
+    createHistory("Command Not found");
+    setInputEmpty(e);
+
+    return;
   }
 });
 
@@ -134,7 +185,7 @@ window.addEventListener("DOMContentLoaded", () => {
   document.body.style.backgroundColor = selectedColor.background;
 
   headerElement.style.color = "#00CD00";
-  headerElement.innerHTML = headerString + " :~$";
+  headerElement.innerHTML = headerString + ":~$";
 
   input.style.color = selectedColor.text;
   input.focus();
