@@ -32,7 +32,7 @@ const colorSchemes = {
 let selectedColor = colorSchemes.solarizedDark;
 const currentVersion = 1.0;
 
-const headerString = "janupasilva@gmail.com";
+const headerString = "webTerminal";
 
 const helpCommands = [
   "history - Shows the previous commands entered",
@@ -40,7 +40,13 @@ const helpCommands = [
   "show--colors - Shows all the available color schemes",
   "{number} - Change the color schems",
   "version - Show the version",
+  "social - Show social media links",
 ];
+
+const socialLinks = {
+  linkedin: "https://www.linkedin.com/in/janupa-silva-1abb781a2/",
+  github: "https://github.com/janupasilva2005",
+};
 
 const input = document.getElementById("input"); // User input
 const historyContainer = document.getElementById("history");
@@ -57,6 +63,9 @@ const createHistory = (command) => {
   historyItem.innerHTML = `<p style='color: ${selectedColor.text}'>${command}</p>`;
 
   historyContainer.append(historyItem); // Adding the item to top history
+
+  // Scrolling to the bottom of the page
+  window.scrollTo(0, document.body.scrollHeight);
 };
 
 const setInputEmpty = (e) => {
@@ -75,16 +84,19 @@ const showHeader = (command) => {
   historyContainer.append(header);
 };
 
+// Add all the commands that the user enters to the history
 const addToHistory = (command) => {
   historyArray.push(command);
 };
 
+// Check if the entered number contains a valid color
 const checkTheColorExists = (id) => {
   const colors = Object.keys(colorSchemes);
 
   return id >= 0 && id < colors.length;
 };
 
+// Returning the color according to the number user enters
 const getTheColor = (id) => {
   const colors = Object.keys(colorSchemes);
 
@@ -112,6 +124,8 @@ input.addEventListener("keypress", (e) => {
 
       createHistory("* I am a 16 year old software developer.");
       createHistory("* I live in Sri, lanka");
+      createHistory("* I love coding and innovating new things.");
+      createHistory("* If you wanna contact me, check social media links.");
 
       setInputEmpty(e);
 
@@ -155,6 +169,20 @@ input.addEventListener("keypress", (e) => {
       return;
     }
 
+    if (e.target.value === "social") {
+      showHeader("social");
+
+      createHistory(
+        `* Linkedin: <a href=${socialLinks.linkedin} target='_blank'>Go to my linkedin account</a>`
+      );
+      createHistory(
+        `* Github: <a href=${socialLinks.github} target='_blank'>Go to my github account</a>`
+      );
+      setInputEmpty(e);
+
+      return;
+    }
+
     if (checkTheColorExists(parseInt(e.target.value))) {
       showHeader(e.target.value);
 
@@ -183,6 +211,10 @@ input.addEventListener("keypress", (e) => {
 window.addEventListener("DOMContentLoaded", () => {
   // Set the window color to default color
   document.body.style.backgroundColor = selectedColor.background;
+
+  const welcome = document.getElementById("welcome").children[0];
+
+  welcome.style.color = selectedColor.text;
 
   headerElement.style.color = "#00CD00";
   headerElement.innerHTML = headerString + ":~$";
