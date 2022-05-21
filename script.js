@@ -60,7 +60,7 @@ let historyArray = [];
  */
 const createHistory = (command) => {
   const historyItem = document.createElement("div"); // Creating history item
-  historyItem.innerHTML = `<p style='color: ${selectedColor.text}'>${command}</p>`;
+  historyItem.innerHTML = `<p class='history-content' style='color: ${selectedColor.text}'>${command}</p>`;
 
   historyContainer.append(historyItem); // Adding the item to top history
 
@@ -187,6 +187,15 @@ input.addEventListener("keypress", (e) => {
       showHeader(e.target.value);
 
       selectedColor = colorSchemes[getTheColor(e.target.value)];
+
+      /**
+       * Changing the previous commands  font color to the current one
+       */
+      const elementsToChange = document.querySelectorAll(".history-content");
+      elementsToChange.forEach((element) => {
+        element.style.color = selectedColor.text;
+      });
+
       document.body.style.backgroundColor = selectedColor.background;
       input.style.color = selectedColor.text;
 
