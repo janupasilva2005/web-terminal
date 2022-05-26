@@ -49,7 +49,7 @@ const socialLinks = {
 };
 
 const input = document.getElementById("input"); // User input
-const historyContainer = document.getElementById("history");
+const historyContainer = document.getElementById("history"); // Where all the content is going
 const headerElement = document.getElementById("header");
 
 // Array to store all the commands user entered
@@ -73,6 +73,9 @@ const setInputEmpty = (e) => {
   e.target.value = "";
 };
 
+/**
+ * Show the recent command with the header
+ */
 const showHeader = (command) => {
   const header = document.createElement("p");
   header.style.color = "#00CD00";
