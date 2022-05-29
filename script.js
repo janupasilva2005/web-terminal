@@ -125,6 +125,7 @@ input.addEventListener("keypress", (e) => {
     if (e.target.value === "info") {
       showHeader("info");
 
+      createHistory("* I am Janupa silva.");
       createHistory("* I am a 16 year old software developer.");
       createHistory("* I live in Sri, lanka");
       createHistory("* I love coding and innovating new things.");
